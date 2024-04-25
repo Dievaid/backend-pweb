@@ -10,13 +10,17 @@ spring:
       initialize-schema: always
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
   rabbitmq:
     host: rabbitmq
     port: 5672
     username: username
     password: password
-
+  liquibase:
+    enabled: true
+    change-log: liquibase-outputChangeLog.yaml
+app:
+    adminKey: SomeAdminKey
 jwt:
   public:
     key: classpath:pub.key
