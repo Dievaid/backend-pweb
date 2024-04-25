@@ -1,0 +1,28 @@
+server:
+  port: 9229
+spring:
+  datasource:
+    username: postgres
+    password: password
+    url: jdbc:postgresql://127.0.0.1:5432/database
+  batch:
+    jdbc:
+      initialize-schema: always
+  jpa:
+    hibernate:
+      ddl-auto: none
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: username
+    password: password
+  liquibase:
+    enabled: true
+    change-log: liquibase-outputChangeLog.yaml
+app:
+  adminKey: SomeAdminKey
+jwt:
+  public:
+    key: classpath:pub.key
+  private:
+    key: classpath:private.key
