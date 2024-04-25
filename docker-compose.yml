@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  database:
+    container_name: postgresql-db
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=database
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+
+  rabbitmq:
+    container_name: rabbitmq-q
+    image: "rabbitmq:3-management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "15674:15674"
+    environment:
+      RABBITMQ_DEFAULT_USER: username
+      RABBITMQ_DEFAULT_PASS: password
+    networks:
+      - backend
+
+  backend:
+    container_name: spring-app
+    image: frontier.go.ro:5000/pweb-backend
+    ports:
+      - "9229:9229"
+    depends_on:
+      - database
+      - rabbitmq
+    networks:
+      - backend
+    restart: always
+
+networks:
+  backend:
