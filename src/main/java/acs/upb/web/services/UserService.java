@@ -29,6 +29,10 @@ public class UserService {
     private final ModelMapper modelMapper;
 
     public void addUser(UserAuthDTO userDto, boolean isAdmin) throws UserAlreadyExistsError {
+        if (userRepository.existsByUsername(userDto.getUsername())) {
+            throw new UserAlreadyExistsError();
+        }
+
         User user = new User();
         Date date = new Date();
 
@@ -37,11 +41,6 @@ public class UserService {
         user.setCreatedAt(date);
         user.setUpdatedAt(date);
         user.setRole(isAdmin ? "ADMIN" : "USER");
-
-        if (userRepository.existsByUsername(user.getUid())) {
-            throw new UserAlreadyExistsError();
-        }
-
         userRepository.save(user);
     }
 
